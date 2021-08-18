@@ -1,10 +1,14 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Button, View } from "react-native";
+import { SafeArea } from "../../components/utility/safe-area.component";
+import { AuthRoute } from "../../infrastructure/navigation/routes.type";
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }) => {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>HOME</Text>
-    </View>
+    <SafeArea>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Button title="AUTH" onPress={() => navigation.navigate(AuthRoute)} />
+      </View>
+    </SafeArea>
   );
 };
