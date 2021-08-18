@@ -1,11 +1,26 @@
-import { LOGIN, LOGIN_ERROR, LOGIN_SUCCESS, LOGOUT } from "../actions.type";
+import {
+  LOGIN,
+  LOGIN_ERROR,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  REGISTER,
+  REGISTER_ERROR,
+  REGISTER_SUCCESS,
+} from "../actions.type";
 
 export const initialState = {
   user: {},
   isLoggedIn: false,
   isLoggingIn: false,
-  error: {},
-  success: {},
+  isRegisteringIn: false,
+  error: {
+    login: {},
+    register: {},
+  },
+  success: {
+    login: {},
+    register: {},
+  },
 };
 
 export default (state = initialState, action) => {
@@ -18,7 +33,7 @@ export default (state = initialState, action) => {
         isLoggingIn: false,
         isLoggedIn: true,
         user: action.payload,
-        error: {},
+        error: { ...state.error, login: {} },
         success: {},
       };
     case LOGIN_ERROR:
@@ -26,7 +41,27 @@ export default (state = initialState, action) => {
         ...state,
         isLoggingIn: false,
         isLoggedIn: false,
-        error: action.payload,
+        error: { ...state.error, login: action.payload },
+        user: null,
+        success: {},
+      };
+    case REGISTER:
+      return { ...state, isRegisteringIn: true };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        isRegisteringIn: false,
+        isLoggedIn: true,
+        user: action.payload,
+        error: { ...state.error, register: {} },
+        success: {},
+      };
+    case REGISTER_ERROR:
+      return {
+        ...state,
+        isRegisteringIn: false,
+        isLoggedIn: false,
+        error: { ...state.error, register: action.payload },
         user: null,
         success: {},
       };

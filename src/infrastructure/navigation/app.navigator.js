@@ -5,14 +5,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { HomeScreen } from "../../screens/home/home.screen";
 import { AddPostScreen } from "../../screens/add-post/add-post.screen";
 import { ProfileScreen } from "../../screens/profile/profile.screen";
-import { AuthScreen } from "../../screens/auth/auth.screen";
 import {
   AddPostRoute,
-  AuthRoute,
   HomeRoute,
   ProfileRoute,
-  TabRoute,
+  MainRoute,
+  AuthRoute,
+  SignInRoute,
+  SignUpRoute,
 } from "./routes.type";
+import { AuthScreen } from "../../screens/auth/screens/auth.screen";
+import { SignInScreen } from "../../screens/auth/screens/sign-in.screen";
+import { SignUpScreen } from "../../screens/auth/screens/sign-up.screen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -49,7 +53,11 @@ const TabStack = () => (
 
 export const AppNavigator = () => (
   <Stack.Navigator>
-    <Stack.Screen name={TabRoute} component={TabStack} />
-    <Stack.Screen name={AuthRoute} component={AuthScreen} />
+    <Stack.Screen name={MainRoute} component={TabStack} />
+    <Stack.Group>
+      <Stack.Screen name={AuthRoute} component={AuthScreen} />
+      <Stack.Screen name={SignInRoute} component={SignInScreen} />
+      <Stack.Screen name={SignUpRoute} component={SignUpScreen} />
+    </Stack.Group>
   </Stack.Navigator>
 );
