@@ -2,8 +2,11 @@ import React from "react";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { ThemeProvider } from "styled-components";
 import firebase from "firebase/app";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { Navigation } from "./src/infrastructure/navigation";
 import { useFonts, theme } from "./src/infrastructure/theme";
+import { store, persistor } from "./src/store";
 
 import {
   FIREBASE_API_KEY,
@@ -34,8 +37,12 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Navigation />
-      <ExpoStatusBar style="auto" />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Navigation />
+          <ExpoStatusBar style="auto" />
+        </PersistGate>
+      </Provider>
     </ThemeProvider>
   );
 }
