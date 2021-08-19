@@ -7,16 +7,18 @@ import {
   REGISTER_ERROR,
   REGISTER_SUCCESS,
 } from "../actions.type";
-import firebase from "firebase";
+import {
+  createUserWithEmailAndPassword,
+  logout,
+  signInWithEmailAndPassword,
+} from "../../services/auth.service";
 
 export const onLogin =
   ({ email, password }) =>
   async (dispatch) => {
     try {
       dispatch({ type: LOGIN });
-      const user = await firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password);
+      const user = await signInWithEmailAndPassword({ email, password });
       dispatch({ type: LOGIN_SUCCESS, payload: user });
     } catch (error) {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -28,9 +30,12 @@ export const onRegister =
   async (dispatch) => {
     try {
       dispatch({ type: REGISTER });
-      const user = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password);
+      const user = await createUserWithEmailAndPassword({
+        firstname,
+        lastname,
+        email,
+        password,
+      });
       dispatch({ type: REGISTER_SUCCESS, payload: user });
     } catch (error) {
       dispatch({ type: REGISTER_ERROR, payload: error });
@@ -38,6 +43,6 @@ export const onRegister =
   };
 
 export const onLogOut = () => async (dispatch) => {
-  await firebase.auth().signOut();
+  await logout();
   dispatch({ type: LOGOUT });
 };
